@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXCUSOMATIQUE  MALIEN 3000</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #fff;
+            text-shadow: 0 0 20px #ff6b6b;
+            margin-bottom: 10px;
+            animation: glow 2s infinite alternate;
+        }
+        
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            color: #ffeaa7;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b; }
+            to { text-shadow: 0 0 30px #ff6b6b, 0 0 40px #ff6b6b, 0 0 50px #ff6b6b; }
+        }
+        
+        .machine {
+            background: linear-gradient(145deg, #2d3748, #1a202c);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin: 20px 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 3px solid #4fd1c7;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .machine::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            z-index: -1;
+            border-radius: 22px;
+            animation: rainbow 3s linear infinite;
+        }
+        
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            margin: 20px 10px;
+            white-space: nowrap;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(255, 107, 107, 0.5);
+        }
+        
+        .excuse-display {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px dashed #ffeaa7;
+            border-radius: 15px;
+            padding: 25px 20px;
+            margin: 20px 0;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+        
+        .excuse-text {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: #fff;
+            line-height: 1.5;
+            font-weight: 400;
+            max-width: 100%;
+            word-break: break-word;
+        }
+        
+        .credibility {
+            display: block;
+            margin: 10px auto;
+            padding: 8px 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #fff;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+        
+        .rating {
+            font-size: 1.5rem;
+            margin: 0 5px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 10px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        
+        .stat-number {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: #4ecdc4;
+            font-weight: 900;
+            word-break: break-all;
+        }
+        
+        .stat-label {
+            color: #ddd;
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            margin-top: 5px;
+        }
+        
+        .loading {
+            color: #4ecdc4;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .warning {
+            background: rgba(255, 193, 7, 0.2);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #fff;
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            line-height: 1.4;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">EXCUSOMATIQUE  MALIEN 3000</h1>
+        <p class="subtitle">🚀 GÉNÉRATEUR D'ALIBIS CERTIFIÉ BAMAKO 🚀</p>
+        <p class="subtitle">~ Testé et approuvé par les retardataires de Médina ~</p>
+        
+        <div class="machine">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="excusesGenerated">0</div>
+                    <div class="stat-label">Excuses Générées</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="timeWasted">0</div>
+                    <div class="stat-label">Minutes de Retard</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="crazyLevel">NORMAL</div>
+                    <div class="stat-label">Niveau Malien</div>
+                </div>
+            </div>
+            
+            <button class="generate-btn" onclick="generateExcuse()">
+                🎭 EXCUSE MALIENNE MAINTENANT 🎭
+            </button>
+            
+            <div class="excuse-display" id="excuseDisplay">
+                <p class="excuse-text">Cliquez pour révéler votre excuse made in Mali ! 🇲🇱</p>
+            </div>
+            
+            <div id="credibilitySection" style="display: none;">
+                <div class="credibility">
+                    <span>📊 Crédibilité : </span>
+                    <span class="rating" id="credibilityRating">🌟</span>
+                    <span id="credibilityText">Analyse...</span>
+                </div>
+                <div class="credibility">
+                    <span>🎯 Efficacité : </span>
+                    <span id="efficiency">Calcul...</span>
+                </div>
+                <div class="credibility">
+                    <span>⚠️ Risque patron : </span>
+                    <span id="risk">Évaluation...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="warning">
+            ⚠️ <strong>ATTENTION :</strong> L'EXCUSE-TRON MALIEN n'est pas responsable si votre chef découvre que les génies du Niger n'existent pas. Évitez pendant le Ramadan.
+        </div>
+    </div>
+
+    <script>
+        let excuseCount = 0;
+        let totalTimeWasted = 0;
+        
+        const excuseData = {
+            // Excuses transport ultra-drôles
+            transportExcuses: [
+                "Mon sotrama s'est transformé en discothèque ambulante et tout le monde dansait dedans au lieu d'avancer",
+                "Le chauffeur de taxi-brousse a décidé de faire un détour pour aller saluer sa 4ème épouse à Sikasso",
+                "Ma Jakarta a été réquisitionnée par des chimpanzés qui voulaient faire du tourisme",
+                "Mon vélo a eu le mal du pays et refuse de rouler vers le travail",
+                "Le DTC était si plein que j'ai été éjecté à Kalabancoro au lieu de descendre en ville",
+                "Mon chauffeur s'est arrêté pour acheter 3 moutons et maintenant ils conduisent mieux que lui"
+            ],
+            
+            // Excuses famille hilarantes
+            familyExcuses: [
+                "Ma grand-mère m'a forcé à écouter l'histoire de comment elle a rencontré grand-père... pour la 847ème fois",
+                "Mon petit frère a caché mes chaussures parce que j'ai refusé de lui acheter des bonbons hier",
+                "Ma mère a organisé un conseil de famille d'urgence pour décider qui va acheter le sucre",
+                "Mon oncle de France a appelé à 5h du matin parce qu'il a oublié le décalage horaire... encore",
+                "Ma tante a insisté pour que je goûte son nouveau plat : du riz au chocolat (oui, c'était horrible)",
+                "Mes cousins ont débarqué à l'improviste avec 12 enfants et 3 chèvres"
+            ],
+            
+            // Excuses météo absurdes
+            weatherExcuses: [
+                "L'harmattan soufflait tellement fort que je me suis retrouvé au Burkina Faso sans faire exprès",
+                "Il fait si chaud que mon téléphone a fondu dans ma poche et maintenant je ne peux plus appeler de taxi",
+                "La poussière rouge était si épaisse que j'ai passé 2h à chercher ma propre maison",
+                "Un tourbillon de sable m'a aspiré et m'a reposé sur le marché de Médina",
+                "La pluie est tombée si fort qu'elle a créé une rivière dans ma rue... avec des crocodiles dedans",
+                "Le soleil brillait tellement que j'ai été aveuglé et j'ai pris la route de Tombouctou"
+            ],
+            
+            // Excuses nourriture délirantes
+            foodExcuses: [
+                "J'ai mangé du tô si collant que mes dents sont restées collées pendant 3 heures",
+                "Ma mère a mis tellement de piment dans le riz sauce que j'ai dû boire le fleuve Niger entier",
+                "J'ai été empoisonné par un ataya trop sucré et j'ai eu des visions de Soundiata Keïta",
+                "Les vendeuses de beignets m'ont séquestré pour que je goûte leurs 47 recettes différentes",
+                "Mon bissap était si acide que j'ai fondu comme un bonbon et j'ai dû me reconstituer"
+            ],
+            
+            // Excuses technologie comiques
+            techExcuses: [
+                "Orange Mali a décidé que mon téléphone ne capte que les signaux des extraterrestres",
+                "Mon réveil smartphone a changé d'heure tout seul pour protester contre la ponctualité",
+                "WhatsApp fonctionnait si lentement que mes messages d'hier arrivent aujourd'hui",
+                "La EDM a coupé le courant pile quand je me réveillais... depuis 5 jours maintenant",
+                "Mon GPS m'a guidé vers 1960 au lieu de mon bureau",
+                "Mon téléphone a attrapé un virus qui le fait parler bambara seulement"
+            ],
+            
+            // Excuses culturelles épiques
+            culturalExcuses: [
+                "Un griot m'a coincé et m'a récité toute l'histoire du Mali depuis la préhistoire",
+                "J'ai été recruté de force pour porter la mariée à un mariage surprise de 400 personnes",
+                "Un marabout m'a dit que sortir avant midi porterait malheur à 7 générations de ma famille",
+                "Les tam-tams du quartier étaient si forts que j'ai dansé involontairement pendant 4 heures",
+                "J'ai été nommé chef de village temporaire et j'ai dû régler 23 disputes de chèvres",
+                "Un djinn m'a défié en combat de danse traditionnelle et j'ai perdu"
+            ],
+            
+            // Excuses animaux hilarantes
+            animalExcuses: [
+                "Mon coq s'est mis en grève et refuse de chanter depuis qu'il a découvert les réveils électroniques",
+                "Une famille d'hippopotames a élu domicile dans ma douche",
+                "Mon chien a appris à ouvrir les portes et maintenant il m'enferme à la maison",
+                "Un caméléon philosophe m'a expliqué pourquoi il ne faut jamais être pressé",
+                "Mes poules ont organisé un syndicat et refusent de pondre jusqu'à ce que j'améliore leur poulailler",
+                "Un baobab centenaire m'a raconté des blagues si drôles que j'en pleure encore"
+            ],
+            
+            // Excuses complètement absurdes
+            absurdExcuses: [
+                "J'ai été temporairement transformé en statue de sel par accident",
+                "Mes chaussures ont développé une conscience et on a eu une dispute philosophique",
+                "J'ai découvert que j'étais allergique au lundi matin",
+                "Mon ombre m'a quitté pour aller travailler à ma place mais elle s'est perdue",
+                "J'ai été recruté par des fourmis pour les aider à déménager leur fourmilière",
+                "Le temps s'est arrêté dans ma chambre mais pas dans le reste du monde"
+            ]
+        };
+        
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+        
+        function generateRandomExcuse() {
+            const allExcuses = [
+                ...excuseData.transportExcuses,
+                ...excuseData.familyExcuses,
+                ...excuseData.weatherExcuses,
+                ...excuseData.foodExcuses,
+                ...excuseData.techExcuses,
+                ...excuseData.culturalExcuses,
+                ...excuseData.animalExcuses,
+                ...excuseData.absurdExcuses
+            ];
+            
+            return getRandomElement(allExcuses);
+        }
+        
+        function getCredibilityData(excuse) {
+            const credibilityOptions = [
+                {
+                    stars: "💀💀💀",
+                    credibilityText: "MÊME À MOPTI ILS RIGOLENT",
+                    efficiency: Math.floor(Math.random() * 5) + "%",
+                    risk: "TON CHEF VA TE LICENCIER PAR MESSAGE ☠️"
+                },
+                {
+                    stars: "🤡🤡",
+                    credibilityText: "DRÔLE MAIS SUSPECT AF",
+                    efficiency: Math.floor(Math.random() * 20) + 5 + "%",
+                    risk: "Très Très Risqué 🔥🔥"
+                },
+                {
+                    stars: "🤔🤔",
+                    credibilityText: "BIZARREMENT PLAUSIBLE",
+                    efficiency: Math.floor(Math.random() * 30) + 25 + "%",
+                    risk: "Ça Peut Passer Maybe ⚠️"
+                },
+                {
+                    stars: "😂😂",
+                    credibilityText: "TELLEMENT MALIEN QUE C'EST VRAI",
+                    efficiency: Math.floor(Math.random() * 25) + 55 + "%",
+                    risk: "Ton Chef Va Compatir 📈"
+                },
+                {
+                    stars: "🏆🇲🇱",
+                    credibilityText: "CERTIFIÉ AUTHENTIQUE BAMAKO",
+                    efficiency: Math.floor(Math.random() * 20) + 80 + "%",
+                    risk: "Ton Chef Va Te Donner Une Prime ✅"
+                }
+            ];
+            
+            return getRandomElement(credibilityOptions);
+        }
+        
+        function updateStats() {
+            const crazyLevels = ["NORMAL", "BAMAKOIS", "MALIEN", "SAHÉLIEN", "TOMBOUCTOU", "SOUNDIATA"];
+            const currentLevel = Math.min(Math.floor(excuseCount / 2), crazyLevels.length - 1);
+            
+            document.getElementById('excusesGenerated').textContent = excuseCount;
+            document.getElementById('timeWasted').textContent = totalTimeWasted;
+            document.getElementById('crazyLevel').textContent = crazyLevels[currentLevel];
+        }
+        
+        function generateExcuse() {
+            excuseCount++;
+            totalTimeWasted += Math.floor(Math.random() * 45) + 15;
+            
+            const excuseDisplay = document.getElementById('excuseDisplay');
+            const loadingMessages = [
+                '🔄 Consultation des ancêtres...',
+                '🥁 Le djembé réfléchit...',
+                '⚡ Génération d\'excuse malienne...',
+                '🌟 Les génies du Niger décident...'
+            ];
+            
+            let messageIndex = 0;
+            
+            const loadingInterval = setInterval(() => {
+                if (messageIndex < loadingMessages.length) {
+                    excuseDisplay.innerHTML = `<p class="loading">${loadingMessages[messageIndex]}</p>`;
+                    messageIndex++;
+                } else {
+                    clearInterval(loadingInterval);
+                    
+                    const excuse = generateRandomExcuse();
+                    const credData = getCredibilityData(excuse);
+                    
+                    excuseDisplay.innerHTML = `<p class="excuse-text">"${excuse}"</p>`;
+                    
+                    document.getElementById('credibilityRating').textContent = credData.stars;
+                    document.getElementById('credibilityText').textContent = credData.credibilityText;
+                    document.getElementById('efficiency').textContent = credData.efficiency;
+                    document.getElementById('risk').textContent = credData.risk;
+                    
+                    document.getElementById('credibilitySection').style.display = 'block';
+                    updateStats();
+                }
+            }, 500);
+        }
+        
+        updateStats();
+    </script>
+</body>
+</html>
